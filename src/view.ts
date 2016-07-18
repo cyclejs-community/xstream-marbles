@@ -1,5 +1,5 @@
 import { Stream } from 'xstream';
-import { div, label, input, hr, h1, VNode } from '@cycle/dom';
+import { div, span, VNode } from '@cycle/dom';
 import { IMarble, IState } from './definitions';
 
 function renderMarble(marble: IMarble): VNode {
@@ -8,7 +8,7 @@ function renderMarble(marble: IMarble): VNode {
       'z-index': marble.time,
       left: marble.time.toString() + '%'
     }
-  }, marble.data);
+  }, [span([marble.data])]);
 }
 
 function view(state: IState): Stream<VNode> {

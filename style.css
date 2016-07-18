@@ -24,9 +24,55 @@ html, body {
 .stream {
   position: relative;
   margin: 20px 0;
-  padding: 0 10px;
+  height: 32px;
 }
 
-.stream .marble {
+.stream::before {
   position: absolute;
+  left: 0;
+  top: 50%;
+  height: 1px;
+  background: #000;
+  content: '';
+  width: 100%;
+  display: block;
+  z-index: -1;
+}
+
+.stream::after {
+  width: 0;
+  height: 0;
+  border-top-width: 8px;
+  border-top-style: solid;
+  border-top-color: transparent;
+  border-bottom-width: 8px;
+  border-bottom-style: solid;
+  border-bottom-color: transparent;
+  border-left-width: 16px;
+  border-left-style: solid;
+  border-left-color: #000;
+  display: inline-block;
+  right: -16px;
+  position: absolute;
+  top: 8px;
+  content: '';
+}
+
+.marble {
+  position: absolute;
+  border: 2px solid #000;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  background: white;
+}
+
+.marble span {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  line-height: 30px;
+  text-align: center;
 }
