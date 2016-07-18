@@ -23,18 +23,18 @@ html, body {
 
 .stream {
   position: relative;
-  margin: 20px 0;
+  margin: 20px 32px 20px 64px;
   height: 32px;
 }
 
 .stream::before {
   position: absolute;
-  left: 0;
+  left: -32px;
   top: 50%;
   height: 1px;
   background: #000;
   content: '';
-  width: 100%;
+  right: 0;
   display: block;
   z-index: -1;
 }

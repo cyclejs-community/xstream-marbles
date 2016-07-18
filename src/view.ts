@@ -6,7 +6,7 @@ function renderMarble(marble: IMarble): VNode {
   return div('.marble', {
     style: {
       'z-index': marble.time,
-      left: marble.time.toString() + '%'
+      left: `calc(${marble.time}% - 32px)`
     }
   }, [span([marble.data])]);
 }
