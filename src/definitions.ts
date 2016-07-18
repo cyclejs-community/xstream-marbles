@@ -10,6 +10,11 @@ export interface ISinks {
   dom: Stream<VNode>;
 }
 
+export interface IMarble {
+  data: string;
+  time: number;
+}
+
 export interface IState {
-  message$: Stream<string>
+  marbles$: Stream<IMarble[]>
 }

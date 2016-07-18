@@ -1,16 +1,25 @@
 import { Stream } from 'xstream';
 import { div, label, input, hr, h1, VNode } from '@cycle/dom';
-import { IState } from './definitions';
+import { IMarble, IState } from './definitions';
+
+function renderMarble(marble: IMarble): VNode {
+  return div('.marble', {
+    style: {
+      'z-index': marble.time,
+      left: marble.time.toString() + '%'
+    }
+  }, marble.data);
+}
 
 function view(state: IState): Stream<VNode> {
+  const xs = Stream;
   const vdom$ =
-    state.message$
-      .map(message =>
+    state.marbles$
+      .map(marbles =>
         div('#root', [
-          label('Name:'),
-          input('.field', { attr: { type: 'text' } }),
-          hr(),
-          h1([message]),
+          div('#container', [
+            div('.stream', marbles.map(renderMarble))
+          ]),
         ])
       );
   return vdom$;
