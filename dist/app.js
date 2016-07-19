@@ -48,10 +48,12 @@
 	var main_1 = __webpack_require__(1);
 	var dom_1 = __webpack_require__(7);
 	var routes_1 = __webpack_require__(122);
+	var data_1 = __webpack_require__(125);
 	var xstream_run_1 = __webpack_require__(123);
 	xstream_run_1.run(main_1.default, {
 	    dom: dom_1.makeDOMDriver('#app'),
-	    routes: routes_1.makeRoutesDriver()
+	    routes: routes_1.makeRoutesDriver(),
+	    data: data_1.makeDataDriver()
 	});
 
 
@@ -64,19 +66,26 @@
 	var model_1 = __webpack_require__(3);
 	var view_1 = __webpack_require__(6);
 	var xstream_1 = __webpack_require__(4);
+	var operators_1 = __webpack_require__(126);
 	function main(sources) {
 	    var xs = xstream_1.Stream;
 	    sources.routes.route$.addListener({
-	        next: function (route) { return console.log(route); },
+	        next: function (route) { return console.log('route: ' + route); },
+	        error: function () { },
+	        complete: function () { }
+	    });
+	    sources.data.data$.addListener({
+	        next: function (operator) { return console.log('operator: ' + operator); },
 	        error: function () { },
 	        complete: function () { }
 	    });
 	    var state = model_1.default(intent_1.default(sources));
 	    var vdom$ = view_1.default(state);
-	    var route$ = xs.periodic(1000).mapTo('sunday');
+	    var route$ = xs.periodic(1000).map(function (i) { return operators_1.operators[i % 15]; });
 	    return {
 	        dom: vdom$,
-	        routes: route$
+	        routes: route$,
+	        data: route$
 	    };
 	}
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -8476,6 +8485,8 @@
 	    return routesDriver;
 	}
 	exports.makeRoutesDriver = makeRoutesDriver;
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = makeRoutesDriver;
 
 
 /***/ },
@@ -8664,6 +8675,67 @@
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = Cycle;
 	//# sourceMappingURL=index.js.map
+
+/***/ },
+/* 125 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var xstream_1 = __webpack_require__(4);
+	var operators_1 = __webpack_require__(126);
+	var DataSource = (function () {
+	    function DataSource(operator$) {
+	        var xs = xstream_1.Stream;
+	        operator$.addListener({
+	            next: function () { },
+	            error: function () { },
+	            complete: function () { }
+	        });
+	        this.data$ =
+	            operator$.map(function (op) {
+	                return xs
+	                    .fromArray(operators_1.operators)
+	                    .filter(function (operator) { return op === operator; });
+	            })
+	                .flatten();
+	    }
+	    return DataSource;
+	}());
+	exports.DataSource = DataSource;
+	function makeDataDriver() {
+	    function dataDriver(operator$) {
+	        return new DataSource(operator$);
+	    }
+	    return dataDriver;
+	}
+	exports.makeDataDriver = makeDataDriver;
+	Object.defineProperty(exports, "__esModule", { value: true });
+	exports.default = makeDataDriver;
+
+
+/***/ },
+/* 126 */
+/***/ function(module, exports) {
+
+	"use strict";
+	exports.operators = [
+	    'map',
+	    'mapTo',
+	    'filter',
+	    'take',
+	    'drop',
+	    'last',
+	    'startWith',
+	    'endWhen',
+	    'fold',
+	    'replaceError',
+	    'flatten',
+	    'compose',
+	    'remember',
+	    'debug',
+	    'imitate'
+	];
+
 
 /***/ }
 /******/ ]);

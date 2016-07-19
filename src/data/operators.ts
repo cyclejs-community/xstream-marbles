@@ -1,4 +1,4 @@
-export const operators = [
+export const operators: string[] = [
   'map',
   'mapTo',
   'filter',

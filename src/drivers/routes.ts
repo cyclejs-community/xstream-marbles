@@ -48,3 +48,5 @@ export function makeRoutesDriver(): (route$: Stream<string>) => RoutesSource {
   }
   return routesDriver;
 }
+
+export default makeRoutesDriver;
