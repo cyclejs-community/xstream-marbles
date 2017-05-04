@@ -1,6 +1,6 @@
 import { Stream } from 'xstream';
 import { VNode } from '@cycle/dom';
-import { DOMSource } from '@cycle/dom/xstream-typings';
+import { DOMSource } from '@cycle/dom';
 import { RoutesSource } from './drivers/routes';
 import { DataSource } from './drivers/data';
 
