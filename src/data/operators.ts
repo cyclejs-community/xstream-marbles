@@ -34,7 +34,7 @@ export const examples: IndexedOperatorExamples = {
   'map': {
     inputs: [
       {
-        value: at(25, 'b', at(12, 'a', default_stream_value)),
+        value: at(40, 'b', at(20, 'a', default_stream_value)),
         options: { values: { a: '1', b: '2' } }
       }
     ],
