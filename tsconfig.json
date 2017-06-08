@@ -1,10 +1,17 @@
 {
-    "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs",
-        "sourceMap": true
-    },
-    "exclude": [
-        "node_modules"
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "target": "es5",
+    "module": "commonjs",
+    "sourceMap": true,
+    "lib": [
+      "es2015",
+      "es2016",
+      "dom"
     ]
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "compileOnSave": false
 }

@@ -13,7 +13,7 @@ function main(sources: ISources): ISinks {
     complete: () => { }
   });
   sources.data.data$.addListener({
-    next: example => console.log('example: ' + example),
+    next: example => console.log(example),
     error: () => { },
     complete: () => { }
   });
