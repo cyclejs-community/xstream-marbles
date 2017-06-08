@@ -1,8 +1,8 @@
 import { Stream } from 'xstream';
-import { operators } from './../data/operators';
+import { examples, OperatorExample } from './../data/operators';
 
 export class DataSource {
-  data$: Stream<string>;
+  data$: Stream<OperatorExample>;
   constructor(operator$: Stream<string>) {
     const xs = Stream;
     operator$.addListener({
@@ -11,10 +11,8 @@ export class DataSource {
       complete: () => {}
     });
     this.data$ =
-      operator$.map(op =>
-        xs
-        .fromArray(operators)
-        .filter(operator => op === operator))
+      operator$
+        .map(op => xs.of(examples[op]))
         .flatten();
   }
 }
