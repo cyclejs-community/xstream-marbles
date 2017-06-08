@@ -13,13 +13,14 @@ function main(sources: ISources): ISinks {
     complete: () => { }
   });
   sources.data.data$.addListener({
-    next: operator => console.log('operator: ' + operator),
+    next: example => console.log('example: ' + example),
     error: () => { },
     complete: () => { }
   });
   const state = model(intent(sources));
   const vdom$ = view(state);
-  const route$ = xs.periodic(1000).map(i => operators[i % 15]);
+  // TODO: Remove mock
+  const route$ = xs.of('map');
   return {
     dom: vdom$,
     routes: route$,
