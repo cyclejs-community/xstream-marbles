@@ -27,7 +27,7 @@ const get_default_stream = () => fromDiagram(default_diagram, { values: { a: '-'
 const copy = (value: string) => (' ' + value).slice(1);
 const at = (index: number, replace: string, value: string) => {
   var copy_of_value = copy(value);
-  return copy_of_value.substr(0, index) + 'x' + copy_of_value.substr(index + 1);
+  return copy_of_value.substr(0, index) + replace + copy_of_value.substr(index + 1);
 };
 
 export const examples: IndexedOperatorExamples = {
@@ -39,7 +39,7 @@ export const examples: IndexedOperatorExamples = {
       }
     ],
     label: 'map(x => x * 10)',
-    operate: input => [input.map(x => parseInt(x) * 10).map(x => x.toString())]
+    operate: input => [input.map(x => parseInt(x)).map(x => x * 10).map(x => x.toString())]
   }
 };
 
