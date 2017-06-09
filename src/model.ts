@@ -1,8 +1,8 @@
 import { Stream } from 'xstream';
-import { IIntent } from './intent';
+import { Intent } from './intent';
 import { State, Marble } from './definitions';
 
-function model(intent: IIntent): State {
+function model(intent: Intent): State {
   const xs = Stream;
   const marbles: Marble[] = [
     {
