@@ -4,23 +4,23 @@ import { DOMSource } from '@cycle/dom';
 import { RoutesSource } from './drivers/routes';
 import { DataSource } from './drivers/data';
 
-export interface ISources {
+export interface Sources {
   dom: DOMSource;
   routes: RoutesSource;
   data: DataSource;
 }
 
-export interface ISinks {
+export interface Sinks {
   dom: Stream<VNode>;
   routes: Stream<string>;
   data: Stream<string>;
 }
 
-export interface IMarble {
+export interface Marble {
   data: string;
   time: number;
 }
 
-export interface IState {
-  marbles$: Stream<IMarble[]>
+export interface State {
+  marbles$: Stream<Marble[]>
 }

@@ -1,8 +1,8 @@
 import { Stream } from 'xstream';
 import { div, span, VNode } from '@cycle/dom';
-import { IMarble, IState } from './definitions';
+import { Marble, State } from './definitions';
 
-function renderMarble(marble: IMarble): VNode {
+function renderMarble(marble: Marble): VNode {
   return div('.marble', {
     style: {
       'z-index': marble.time,
@@ -11,7 +11,7 @@ function renderMarble(marble: IMarble): VNode {
   }, [span([marble.data])]);
 }
 
-function view(state: IState): Stream<VNode> {
+function view(state: State): Stream<VNode> {
   const xs = Stream;
   const vdom$ =
     state.marbles$

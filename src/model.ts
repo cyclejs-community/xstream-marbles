@@ -1,10 +1,10 @@
 import { Stream } from 'xstream';
 import { IIntent } from './intent';
-import { IState, IMarble } from './definitions';
+import { State, Marble } from './definitions';
 
-function model(intent: IIntent): IState {
+function model(intent: IIntent): State {
   const xs = Stream;
-  const marbles: IMarble[] = [
+  const marbles: Marble[] = [
     {
       data: '2',
       time: 1

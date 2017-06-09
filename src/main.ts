@@ -1,4 +1,4 @@
-import { ISources, ISinks } from './definitions';
+import { Sources, Sinks } from './definitions';
 import intent from './intent';
 import model from './model';
 import view from './view';
@@ -13,7 +13,7 @@ const dummy = {
   complete: noop
 };
 
-function main(sources: ISources): ISinks {
+function main(sources: Sources): Sinks {
   const xs = Stream;
   sources.routes.route$.addListener(dummy);
   sources.data.data$.addListener({

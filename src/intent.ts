@@ -1,11 +1,11 @@
-import { ISources } from './definitions';
+import { Sources } from './definitions';
 import { Stream } from 'xstream';
 
 export interface IIntent {
   name$: Stream<string>
 }
 
-function intent(sources: ISources): IIntent {
+function intent(sources: Sources): IIntent {
   const dom = sources.dom;
   const intent = {
     name$: dom
