@@ -1,26 +1,39 @@
 import { Stream } from 'xstream';
 import { div, span, VNode } from '@cycle/dom';
 import { Marble, State } from './definitions';
+import { StreamView } from './components/StreamView';
 
-function renderMarble(marble: Marble): VNode {
-  return div('.marble', {
-    style: {
-      'z-index': marble.time,
-      left: `calc(${marble.time}% - 32px)`
-    }
-  }, [span([marble.data])]);
-}
-
-function view(state: State): Stream<VNode> {
+function view({ inputs$, label$, outputs$ }: State): Stream<VNode> {
   const xs = Stream;
+  const inputsDom$ =
+    inputs$
+      .map(inputs => {
+        const streamViews = inputs.map(marbles => StreamView({ marbles$: xs.of(marbles) }));
+        const streamViewDoms$: Stream<VNode[]> = xs.combine(...streamViews.map(sv => sv.dom));
+        const streamViewDom$ = streamViewDoms$.map(doms => div('.inputs', doms));
+        return streamViewDom$;
+      })
+      .flatten();
+  const labelDom$ =
+    label$
+      .map(label => div('.label', [label]));
+  const outputsDom$ =
+    outputs$
+      .map(outputs => {
+        const streamViews = outputs.map(marbles => StreamView({ marbles$: xs.of(marbles) }));
+        const streamViewDoms$: Stream<VNode[]> = xs.combine(...streamViews.map(sv => sv.dom));
+        const streamViewDom$ = streamViewDoms$.map(doms => div('.inputs', doms));
+        return streamViewDom$;
+      })
+      .flatten();
   const vdom$ =
-    xs.combine(state.inputs$, state.label$, state.outputs$)
-      .map(([ inputs, label, outputs]) => 
+    xs.combine(inputsDom$, labelDom$, outputsDom$)
+      .map(([inputsDom, labelDom, outputsDom]) =>
         div('#root', [
           div('#container', [
-            ...inputs.map(marbles => div('.stream', marbles.map(renderMarble))),
-            div('.label', [label]),
-            ...outputs.map(marbles => div('.stream', marbles.map(renderMarble)))
+            inputsDom,
+            labelDom,
+            outputsDom
           ]),
         ])
       );
