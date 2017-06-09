@@ -22,7 +22,7 @@ function view({ inputs$, label$, outputs$ }: State): Stream<VNode> {
       .map(outputs => {
         const streamViews = outputs.map(marbles => StreamView({ marbles$: xs.of(marbles) }));
         const streamViewDoms$: Stream<VNode[]> = xs.combine(...streamViews.map(sv => sv.dom));
-        const streamViewDom$ = streamViewDoms$.map(doms => div('.inputs', doms));
+        const streamViewDom$ = streamViewDoms$.map(doms => div('.outputs', doms));
         return streamViewDom$;
       })
       .flatten();
