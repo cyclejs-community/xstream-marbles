@@ -27,7 +27,7 @@ export const Sidebar = ({ operators$ }: Sources): Sinks => ({
       ul('.sidebar-links',
         operators.map(operator =>
           li('.sidebar-link', [
-            a('.link', { props: { title: operator, href: `#${operator}` } }, operator)
+            a('.link', { props: { title: operator, href: `#/${operator}` } }, operator)
           ])
         )
       )
