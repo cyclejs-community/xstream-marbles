@@ -12,14 +12,15 @@ export const getOutputs = (example: OperatorExample) =>
     .fold((outputs, output) => outputs.concat([output]), [] as Marble[][])
     .last();
 
-function model({ operator$ }: Intent): State {
-  const inputs$ = operator$.map(({ inputs }) => Stream.of(inputs)).flatten();
-  const label$ = operator$.map(({ label }) => Stream.of(label)).flatten();
-  const outputs$ = operator$.map(example => getOutputs(example)).flatten();
+function model({ example$, operators$ }: Intent): State {
+  const inputs$ = example$.map(({ inputs }) => Stream.of(inputs)).flatten();
+  const label$ = example$.map(({ label }) => Stream.of(label)).flatten();
+  const outputs$ = example$.map(example => getOutputs(example)).flatten();
   return {
     inputs$,
     label$,
-    outputs$
+    outputs$,
+    operators$
   };
 }
 

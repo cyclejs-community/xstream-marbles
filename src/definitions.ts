@@ -12,7 +12,6 @@ export interface Sources {
 
 export interface Sinks {
   dom: Stream<VNode>;
-  routes: Stream<string>;
   data: Stream<string>;
 }
 
@@ -22,6 +21,7 @@ export interface Marble {
 }
 
 export interface State {
+  operators$: Stream<string[]>;
   inputs$: Stream<Marble[][]>;
   label$: Stream<string>;
   outputs$: Stream<Marble[][]>;

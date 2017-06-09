@@ -14,15 +14,11 @@ const dummy = {
 
 function main(sources: Sources): Sinks {
   const xs = Stream;
-  sources.routes.route$.addListener(dummy);
   const state = model(intent(sources));
   const vdom$ = view(state);
-  // TODO: Remove mock
-  const route$ = xs.of('map');
   return {
     dom: vdom$,
-    routes: route$,
-    data: route$
+    data: sources.routes.route$
   };
 }
 

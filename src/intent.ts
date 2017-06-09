@@ -2,12 +2,15 @@ import { Sources, OperatorExample } from './definitions';
 import { Stream } from 'xstream';
 
 export interface Intent {
-  operator$: Stream<OperatorExample>;
+  example$: Stream<OperatorExample>;
+  operators$: Stream<string[]>;
 }
 
-function intent(sources: Sources): Intent {
-  const data = sources.data;
-  return { operator$: data.data$ };
+function intent({ data }: Sources): Intent {
+  return {
+    example$: data.data$,
+    operators$: data.operators$
+  };
 }
 
 export default intent;

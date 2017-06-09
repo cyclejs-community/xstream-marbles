@@ -2,9 +2,23 @@ import { Stream } from 'xstream';
 import { div, span, VNode } from '@cycle/dom';
 import { Marble, State } from './definitions';
 import { StreamView } from './components/StreamView';
+import { Sidebar } from './components/Sidebar';
 import { cssRaw } from 'typestyle';
 
 cssRaw(`
+  .container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+  .content {
+    position: absolute;
+    left: 280px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
   .label {
     border: 1px solid #ddd;
     padding: 20px;
@@ -14,7 +28,7 @@ cssRaw(`
   }
 `);
 
-function view({ inputs$, label$, outputs$ }: State): Stream<VNode> {
+function view({ inputs$, label$, outputs$, operators$ }: State): Stream<VNode> {
   const xs = Stream;
   const toDom$ = (streams$: Stream<Marble[][]>, selector: string): Stream<VNode> => {
     return streams$
@@ -26,18 +40,20 @@ function view({ inputs$, label$, outputs$ }: State): Stream<VNode> {
       })
       .flatten();
   };
+  const sidebarDom$ = Sidebar({ operators$ }).dom;
   const inputsDom$ = toDom$(inputs$, '.inputs');
   const labelDom$ = label$.map(label => div('.label', [label]));
   const outputsDom$ = toDom$(outputs$, '.outputs');
   const vdom$ =
-    xs.combine(inputsDom$, labelDom$, outputsDom$)
-      .map(([inputsDom, labelDom, outputsDom]) =>
-        div('#root', [
-          div('#container', [
+    xs.combine(sidebarDom$, inputsDom$, labelDom$, outputsDom$)
+      .map(([sidebarDom, inputsDom, labelDom, outputsDom]) =>
+        div('.container', [
+          sidebarDom,
+          div('.content', [
             inputsDom,
             labelDom,
             outputsDom
-          ]),
+          ])
         ])
       );
   return vdom$;

@@ -23,6 +23,12 @@ cssRaw(`
     -moz-box-sizing: inherit;
     box-sizing: inherit;
   }
+
+  #app {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+  }
 `);
 
 run(main, {
