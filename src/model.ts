@@ -9,10 +9,8 @@ export const getOutputs = (example: OperatorExample) =>
         .map(marble$ => marble$.fold((marbles, marble) => marbles.concat(marble), [] as Marble[]).last())
     )
     .flatten()
-    .debug()
     .fold((outputs, output) => outputs.concat([output]), [] as Marble[][])
-    .last()
-    .debug();
+    .last();
 
 function model({ operator$ }: Intent): State {
   const inputs$ = operator$.map(({ inputs }) => Stream.of(inputs)).flatten();
