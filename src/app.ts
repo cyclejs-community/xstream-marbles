@@ -25,7 +25,6 @@ cssRaw(`
   }
 `);
 
-
 run(main, {
   dom: makeDOMDriver('#app'),
   routes: makeRoutesDriver(),
