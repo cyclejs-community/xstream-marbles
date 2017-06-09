@@ -1,38 +1,27 @@
 import { Stream } from 'xstream';
 import { Intent } from './intent';
-import { State, Marble } from './definitions';
+import { State, Marble, OperatorExample } from './definitions';
 
-function model(intent: Intent): State {
-  const xs = Stream;
-  const marbles: Marble[] = [
-    {
-      data: '2',
-      time: 1
-    },
-    {
-      data: '3',
-      time: 10
-    },
-    {
-      data: '5',
-      time: 15
-    },
-    {
-      data: '7',
-      time: 20
-    },
-    {
-      data: '11',
-      time: 25
-    },
-    {
-      data: '13',
-      time: 30
-    }
-  ];
-  const marbles$ = xs.of(marbles);
+export const getOutputs = (example: OperatorExample) =>
+  Stream
+    .fromArray(
+      example.operate(...example.inputs.map(input => Stream.fromArray(input)))
+        .map(marble$ => marble$.fold((marbles, marble) => marbles.concat(marble), [] as Marble[]).last())
+    )
+    .flatten()
+    .debug()
+    .fold((outputs, output) => outputs.concat([output]), [] as Marble[][])
+    .last()
+    .debug();
+
+function model({ operator$ }: Intent): State {
+  const inputs$ = operator$.map(({ inputs }) => Stream.of(inputs)).flatten();
+  const label$ = operator$.map(({ label }) => Stream.of(label)).flatten();
+  const outputs$ = operator$.map(example => getOutputs(example)).flatten();
   return {
-    marbles$
+    inputs$,
+    label$,
+    outputs$
   };
 }
 

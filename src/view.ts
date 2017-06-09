@@ -14,11 +14,13 @@ function renderMarble(marble: Marble): VNode {
 function view(state: State): Stream<VNode> {
   const xs = Stream;
   const vdom$ =
-    state.marbles$
-      .map(marbles =>
+    xs.combine(state.inputs$, state.label$, state.outputs$)
+      .map(([ inputs, label, outputs]) => 
         div('#root', [
           div('#container', [
-            div('.stream', marbles.map(renderMarble))
+            ...inputs.map(marbles => div('.stream', marbles.map(renderMarble))),
+            div('.label', [label]),
+            ...outputs.map(marbles => div('.stream', marbles.map(renderMarble)))
           ]),
         ])
       );

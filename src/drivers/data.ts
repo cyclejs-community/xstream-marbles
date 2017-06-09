@@ -1,5 +1,6 @@
 import { Stream } from 'xstream';
-import { examples, OperatorExample } from './../data/operators';
+import { examples } from '../data/operators';
+import { OperatorExample } from '../definitions';
 
 export class DataSource {
   data$: Stream<OperatorExample>;

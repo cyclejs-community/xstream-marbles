@@ -1,20 +1,13 @@
-import { Sources } from './definitions';
+import { Sources, OperatorExample } from './definitions';
 import { Stream } from 'xstream';
 
 export interface Intent {
-  name$: Stream<string>
+  operator$: Stream<OperatorExample>;
 }
 
 function intent(sources: Sources): Intent {
-  const dom = sources.dom;
-  const intent = {
-    name$: dom
-      .select('.field')
-      .events('input')
-      .map(ev => (ev.target as HTMLInputElement).value)
-      .startWith('')
-  };
-  return intent;
+  const data = sources.data;
+  return { operator$: data.data$ };
 }
 
 export default intent;

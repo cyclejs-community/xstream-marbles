@@ -1,5 +1,5 @@
 import { Stream } from 'xstream';
-import { Marble } from '../definitions';
+import { Marble, OperatorExample } from '../definitions';
 
 export const operators: string[] = [
   'map',
@@ -32,17 +32,3 @@ export const examples: IndexedOperatorExamples = {
 interface IndexedOperatorExamples {
   [key: string]: OperatorExample;
 }
-
-interface AnyObject {
-  [x: string]: any;
-}
-
-export interface OperatorExample {
-  inputs: Marble[][];
-  label: string;
-  operate: (...inputs: Stream<Marble>[]) => Stream<Marble>[];
-}
-
-export const outputs$ = (example: OperatorExample): Stream<Marble[]>[] =>
-  example.operate(...example.inputs.map(input => Stream.fromArray(input)))
-    .map(marble$ => marble$.fold((marbles, marble) => marbles.concat(marble), [] as Marble[]).last());
