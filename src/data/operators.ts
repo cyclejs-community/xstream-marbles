@@ -4,28 +4,13 @@ import { withCompletionMarble$ } from './helpers';
 import { map } from './map';
 import { mapTo } from './mapTo';
 import { filter } from './filter';
+import { take } from './take';
 
 export const examples: IndexedOperatorExamples = {
   'map': map,
   'mapTo': mapTo,
   'filter': filter,
-  'take': {
-    inputs: [
-      [
-        { data: '1', time: 20 },
-        { data: '2', time: 25 },
-        { data: '1', time: 30 },
-        { data: '1', time: 45 },
-        { data: '7', time: 50 },
-        { data: '4', time: 60 },
-        { time: 100, complete: true }
-      ]
-    ],
-    label: 'take(4)',
-    operate: input$ => [
-      withCompletionMarble$(input$.take(4))
-    ]
-  },
+  'take': take,
   'drop': {
     inputs: [
       [
