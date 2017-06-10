@@ -13,6 +13,6 @@ export const take = {
       { time: 100, complete: true }
     ]
   ],
-  label: 'take(4)',
-  operate: input$ => withCompletionMarble$(input$.take(4))
+  label: 'take(3)',
+  operate: input$ => withCompletionMarble$(input$.take(3))
 };
