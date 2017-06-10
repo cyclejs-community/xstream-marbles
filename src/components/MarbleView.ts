@@ -25,7 +25,11 @@ cssRaw(`
   }
 
   .complete {
-
+    position: absolute;
+    height: 49px;
+    width: 2px;
+    background: black;
+    top: -8px;
   }
 `);
 
@@ -37,20 +41,20 @@ interface Sinks {
   dom: Stream<VNode>;
 }
 
-const getStyle = (time: number): any => ({
-  'z-index': time,
-  left: `calc(${time}% - 32px)`
+const getStyle = (time: number, complete: boolean): any => ({
+  'z-index': time - (complete ? 1 : 0),
+  left: `calc(${time}% - ${complete ? 17 : 32}px)`
 });
 
-const getOptions = (time: number): any => ({
-  style: getStyle(time)
+const getOptions = (time: number, complete: boolean): any => ({
+  style: getStyle(time, complete)
 });
 
 export const MarbleView = ({ marble$ }: Sources): Sinks => ({
   dom: marble$
     .map(({ data, time, complete }) =>
       !!complete
-        ? div('.complete', getOptions(time))
-        : div('.marble', getOptions(time), [span([data])])
+        ? div('.complete', getOptions(time, true))
+        : div('.marble', getOptions(time, false), [span([data])])
     )
 });
