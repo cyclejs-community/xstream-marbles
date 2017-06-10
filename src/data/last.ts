@@ -14,7 +14,7 @@ export const last = {
     ]
   ],
   label: 'last()',
-  operate: input$ => [
+  operate: input$ =>
     withCompletionMarble$(
       input$
         .last()
@@ -25,5 +25,4 @@ export const last = {
             .map(({ data }) => ({ data, time })))
         .flatten()
     )
-  ]
 };

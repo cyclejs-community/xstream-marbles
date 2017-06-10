@@ -10,7 +10,12 @@ export const mapTo = {
     ]
   ],
   label: 'mapTo(10)',
-  operate: input$ => [
-    input$.map(({ data, time, complete }) => ({ data: data && '10', time, complete }))
-  ]
+  operate: input$ =>
+    input$
+      .map(({ data, time, complete }) => ({
+        data: data && '10',
+        time,
+        complete
+      }))
+
 };

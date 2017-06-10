@@ -10,7 +10,11 @@ export const map = {
     ]
   ],
   label: 'map(x => 10 * x)',
-  operate: input$ => [
-    input$.map(({ data, time, complete }) => ({ data: data && (parseInt(data) * 10).toString(), time, complete }))
-  ]
+  operate: input$ =>
+    input$
+      .map(({ data, time, complete }) => ({
+        data: data && (parseInt(data) * 10).toString(),
+        time,
+        complete
+      }))
 };

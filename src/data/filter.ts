@@ -13,7 +13,9 @@ export const filter = {
     ]
   ],
   label: 'filter(x => x > 1)',
-  operate: input$ => [
-    input$.filter(({ data, complete }) => complete != undefined || parseInt(data) > 1)
-  ]
+  operate: input$ =>
+    input$
+      .filter(({ data, complete }) =>
+        complete != undefined || parseInt(data) > 1
+      )
 };

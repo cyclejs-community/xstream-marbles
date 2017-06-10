@@ -14,7 +14,5 @@ export const take = {
     ]
   ],
   label: 'take(4)',
-  operate: input$ => [
-    withCompletionMarble$(input$.take(4))
-  ]
+  operate: input$ => withCompletionMarble$(input$.take(4))
 };

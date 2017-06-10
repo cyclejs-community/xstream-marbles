@@ -13,7 +13,5 @@ export const drop = {
     ]
   ],
   label: 'drop(3)',
-  operate: input$ => [
-    input$.drop(3)
-  ]
+  operate: input$ => input$.drop(3)
 };

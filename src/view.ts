@@ -28,7 +28,7 @@ cssRaw(`
   }
 `);
 
-function view({ inputs$, label$, outputs$, operators$ }: State): Stream<VNode> {
+function view({ inputs$, label$, output$, operators$ }: State): Stream<VNode> {
   const xs = Stream;
   const toDom$ = (streams$: Stream<Marble[][]>, selector: string): Stream<VNode> => {
     return streams$
@@ -43,7 +43,7 @@ function view({ inputs$, label$, outputs$, operators$ }: State): Stream<VNode> {
   const sidebarDom$ = Sidebar({ operators$ }).dom;
   const inputsDom$ = toDom$(inputs$, '.inputs');
   const labelDom$ = label$.map(label => div('.label', [label]));
-  const outputsDom$ = toDom$(outputs$, '.outputs');
+  const outputsDom$ = StreamView({ marbles$: output$ }).dom.map(dom => div('.output', [dom]));
   const vdom$ =
     xs.combine(sidebarDom$, inputsDom$, labelDom$, outputsDom$)
       .map(([sidebarDom, inputsDom, labelDom, outputsDom]) =>

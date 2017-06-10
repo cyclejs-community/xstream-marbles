@@ -25,11 +25,11 @@ export interface State {
   operators$: Stream<string[]>;
   inputs$: Stream<Marble[][]>;
   label$: Stream<string>;
-  outputs$: Stream<Marble[][]>;
+  output$: Stream<Marble[]>;
 }
 
 export interface OperatorExample {
   inputs: Marble[][];
   label: string;
-  operate: (...inputs: Stream<Marble>[]) => Stream<Marble>[];
+  operate: (...inputs: Stream<Marble>[]) => Stream<Marble>;
 }
