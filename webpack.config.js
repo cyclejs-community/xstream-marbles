@@ -3,6 +3,7 @@ var webpack = require('webpack');
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var debug = require('debug')('app:config:webpack');
+var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 
 // Environment Constants
 var NODE_ENV = process.env.NODE_ENV;
@@ -63,6 +64,7 @@ webpackConfig.output = {
 // Plugins
 webpackConfig.plugins = [
   new webpack.DefinePlugin(GLOBALS),
+  new WebpackCleanupPlugin(),
   new HtmlWebpackPlugin({
     template: path.join(SRC, 'index.html'),
     hash: false,
