@@ -4,7 +4,7 @@
   "description": "Interactive marble diagrams for xstream Streams",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack-dev-server --content-base ./dist --inline --colors --port 3000 --open",
+    "start": "cross-env NODE_ENV=development webpack-dev-server --content-base ./docs --inline --colors --port 3000 --open",
     "build": "cross-env NODE_ENV=production webpack"
   },
   "repository": {
