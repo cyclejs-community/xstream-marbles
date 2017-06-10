@@ -79,7 +79,7 @@ export const examples: IndexedOperatorExamples = {
     ],
     label: 'drop(4)',
     operate: input$ => [
-      withCompletionMarble$(input$.drop(4))
+      input$.drop(4)
     ]
   },
   'last': {
