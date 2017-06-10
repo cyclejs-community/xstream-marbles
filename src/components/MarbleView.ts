@@ -20,7 +20,7 @@ cssRaw(`
     right: 0;
     bottom: 0;
     left: 0;
-    line-height: 30px;
+    line-height: 28px;
     text-align: center;
   }
 `);
