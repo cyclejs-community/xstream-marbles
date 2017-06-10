@@ -31,6 +31,13 @@ export const examples: IndexedOperatorExamples = {
     label: 'take(4)',
     operate: input$ => [withCompletionMarble$(input$.take(4))]
   },
+  'drop': {
+    inputs: [
+      [{ data: '1', time: 20 }, { data: '2', time: 25 }, { data: '1', time: 30 }, { data: '1', time: 45 }, { data: '7', time: 50 }, { data: '4', time: 60 }, { time: 100, complete: true }]
+    ],
+    label: 'drop(4)',
+    operate: input$ => [withCompletionMarble$(input$.drop(4))]
+  },
 };
 
 interface IndexedOperatorExamples {
