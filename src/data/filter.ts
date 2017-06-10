@@ -1,4 +1,5 @@
 import { OperatorExample } from '../definitions';
+import { toMarbleStream } from './helpers';
 
 export const filter = {
   inputs: [
@@ -13,9 +14,5 @@ export const filter = {
     ]
   ],
   label: 'filter(x => x > 1)',
-  operate: input$ =>
-    input$
-      .filter(({ data, complete }) =>
-        complete != undefined || parseInt(data) > 1
-      )
+  operate: input$ => toMarbleStream(input$, input$ => input$.filter(x => parseInt(x) > 1))
 };
