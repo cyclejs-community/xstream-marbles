@@ -18,6 +18,7 @@ export interface Sinks {
 export interface Marble {
   data: string;
   time: number;
+  complete?: boolean;
 }
 
 export interface State {

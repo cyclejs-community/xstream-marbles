@@ -23,6 +23,10 @@ cssRaw(`
     line-height: 28px;
     text-align: center;
   }
+
+  .complete {
+
+  }
 `);
 
 interface Sources {
@@ -33,14 +37,20 @@ interface Sinks {
   dom: Stream<VNode>;
 }
 
+const getStyle = (time: number): any => ({
+  'z-index': time,
+  left: `calc(${time}% - 32px)`
+});
+
+const getOptions = (time: number): any => ({
+  style: getStyle(time)
+});
+
 export const MarbleView = ({ marble$ }: Sources): Sinks => ({
   dom: marble$
-    .map(({ data, time }) =>
-      div('.marble', {
-        style: {
-          'z-index': time,
-          left: `calc(${time}% - 32px)`
-        }
-      }, [span([data])])
+    .map(({ data, time, complete }) =>
+      !!complete
+        ? div('.complete', getOptions(time))
+        : div('.marble', getOptions(time), [span([data])])
     )
 });
