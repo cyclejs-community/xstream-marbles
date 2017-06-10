@@ -25,3 +25,13 @@ export const withCompletionMarble$ = (some$: Stream<Marble>, completion_time?: n
     }), 30);
   return return$;
 };
+
+export const toMarbleStream = (marble$: Stream<Marble>, operate: (data$: Stream<string>) => Stream<string>): Stream<Marble> =>
+  Stream.merge<Marble>(
+    marble$
+      .filter(({ complete }) => !complete)
+      .map(({ data, time }) => operate(Stream.of(data)).map<Marble>(data => ({ time, data })))
+      .flatten(),
+    marble$
+      .filter(({ complete }) => !!complete)
+  );
