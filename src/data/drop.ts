@@ -12,8 +12,8 @@ export const drop = {
       { time: 100, complete: true }
     ]
   ],
-  label: 'drop(4)',
+  label: 'drop(3)',
   operate: input$ => [
-    input$.drop(4)
+    input$.drop(3)
   ]
 };
