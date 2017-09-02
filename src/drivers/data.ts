@@ -17,7 +17,7 @@ export class DataSource {
     operator$.addListener(dummy);
     this.data$ =
       operator$
-        .map(op => xs.of(examples[op]))
+        .map(operator => xs.of(examples[operator]))
         .flatten();
     this.operators$ =
       xs.of(keys(examples)).remember();
