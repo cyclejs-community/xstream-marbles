@@ -3,10 +3,11 @@ import { examples } from '../data/operators';
 import { OperatorExample } from '../definitions';
 import { keys } from 'ramda';
 
+const noop = () => {};
 const dummy = {
-  next: () => { },
-  error: () => { },
-  complete: () => { }
+  next: noop,
+  error: noop,
+  complete: noop
 };
 
 export class DataSource {
