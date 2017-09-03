@@ -32,9 +32,9 @@ export class RoutesSource {
     const xs = Stream;
     this.route$ =
       xs.create(new HashChangeProducer())
-        .map((ev: HashChangeEvent) => (ev.target as Window).location.hash.replace('#', ''))
-        .map(hash => (hash || '').replace('/', ''))
-        .startWith(window.location.hash.replace('#', '').replace('/', '') || 'map');
+        .map(ev => window.location.hash)
+        .startWith(window.location.hash)
+        .map(hash => (hash || '#/map').replace('#', '').replace('/', ''));
   }
 }
 
