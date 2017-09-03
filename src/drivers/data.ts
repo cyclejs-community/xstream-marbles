@@ -1,21 +1,15 @@
 import { Stream } from 'xstream';
 import { examples } from '../data/operators';
 import { OperatorExample } from '../definitions';
+import { createDummyListener } from '../utils';
 import { keys } from 'ramda';
-
-const noop = () => {};
-const dummy = {
-  next: noop,
-  error: noop,
-  complete: noop
-};
 
 export class DataSource {
   operators$: Stream<string[]>;
   data$: Stream<OperatorExample>;
   constructor(operator$: Stream<string>) {
     const xs = Stream;
-    operator$.addListener(dummy);
+    operator$.addListener(createDummyListener());
     this.data$ =
       operator$
         .map(operator => xs.of(examples[operator]))
