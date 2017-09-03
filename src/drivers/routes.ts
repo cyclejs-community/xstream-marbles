@@ -6,17 +6,18 @@ class HashChangeProducer implements Producer<HashChangeEvent> {
   stream: Listener<HashChangeEvent>;
   handler: (ev: HashChangeEvent) => void;
   constructor() {
-    const _this = this;
-    this.start = function (listener) {
-      _this.stream = listener;
-      window.addEventListener('hashchange', _this.handler);
-    };
-    this.stop = function () {
-      window.removeEventListener('hashchange', _this.handler);
-      _this.stream = null;
-    };
+    this.start =
+      listener => {
+        this.stream = listener;
+        window.addEventListener('hashchange', this.handler);
+      };
+    this.stop =
+      () => {
+        window.removeEventListener('hashchange', this.handler);
+        this.stream = null;
+      };
     this.stream = null;
-    this.handler = event => _this.stream.next(event);
+    this.handler = event => this.stream.next(event);
   }
 }
 
@@ -36,7 +37,7 @@ export class RoutesSource {
       xs.create(hashChangeProducer)
         .map((ev: HashChangeEvent) => (ev.target as Window).location.hash.replace('#', ''))
         .map(hash => (hash || '').replace('/', ''))
-        .startWith(window.location.hash.replace('#', '').replace('/','') || 'map');
+        .startWith(window.location.hash.replace('#', '').replace('/', '') || 'map');
     this.route$ = hashRoute$;
   }
 }
