@@ -1,4 +1,5 @@
 import { Stream, Producer, Listener } from 'xstream';
+import { createDummyListener } from '../utils';
 
 class HashChangeProducer implements Producer<HashChangeEvent> {
   start: (listener: Listener<HashChangeEvent>) => void;
@@ -25,20 +26,15 @@ export class RoutesSource {
   route$: Stream<string>;
   constructor(route$: Stream<string>) {
     route$.addListener({
-      next: route => {
-        window.location.hash = `/${route}`;
-      },
-      error: () => { },
-      complete: () => { }
+      ...createDummyListener(),
+      next: route => window.location.hash = `/${route}`
     });
     const xs = Stream;
-    const hashChangeProducer = new HashChangeProducer();
-    const hashRoute$ =
-      xs.create(hashChangeProducer)
+    this.route$ =
+      xs.create(new HashChangeProducer())
         .map((ev: HashChangeEvent) => (ev.target as Window).location.hash.replace('#', ''))
         .map(hash => (hash || '').replace('/', ''))
         .startWith(window.location.hash.replace('#', '').replace('/', '') || 'map');
-    this.route$ = hashRoute$;
   }
 }
 
