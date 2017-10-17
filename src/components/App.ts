@@ -4,6 +4,7 @@ import { div, aside, main } from '@cycle/dom';
 import { Sidebar } from './Sidebar';
 import { Operator } from './Operator';
 import { cssRaw } from 'typestyle';
+import delay from 'xstream/extra/delay';
 
 cssRaw(`
   html, body {
@@ -60,7 +61,13 @@ cssRaw(`
 export const App = ({ history, dom, operators: { operator$, operators$ } }: Sources): Sinks => {
   const xs = Stream;
   const sidebarDom$ = Sidebar({ operators$ }).dom;
-  const operatorDom$ = Operator({ operator$, dom }).dom;
+  const operatorDom$ =
+    operator$.map(operator =>
+      Operator({ operator$: xs.of(operator), dom })
+        .dom
+        .compose(delay(10))
+        .startWith(null)
+    ).flatten();
   const vdom$ =
     xs.combine(sidebarDom$, operatorDom$)
       .map(([sidebar, operator]) =>
