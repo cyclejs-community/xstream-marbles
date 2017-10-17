@@ -1,6 +1,6 @@
 import main from './main';
 import { makeDOMDriver } from '@cycle/dom';
-import { makeRoutesDriver } from './drivers/routes';
+import { makeHashHistoryDriver } from '@cycle/history';
 import { makeDataDriver } from './drivers/data';
 import { run } from '@cycle/run';
 import { cssRaw } from 'typestyle';
@@ -34,6 +34,6 @@ cssRaw(`
 
 run(main, {
   dom: makeDOMDriver('#app'),
-  routes: makeRoutesDriver(),
+  history: makeHashHistoryDriver(),
   data: makeDataDriver()
-});
+} as any);

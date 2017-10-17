@@ -1,12 +1,12 @@
-import { Stream } from 'xstream';
+import { MemoryStream, Stream } from 'xstream';
 import { VNode } from '@cycle/dom';
 import { DOMSource } from '@cycle/dom';
-import { RoutesSource } from './drivers/routes';
+import { Location } from '@cycle/history';
 import { DataSource } from './drivers/data';
 
 export interface Sources {
   dom: DOMSource;
-  routes: RoutesSource;
+  history: MemoryStream<Location>;
   data: DataSource;
 }
 
