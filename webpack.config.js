@@ -4,6 +4,7 @@ var path = require('path');
 var debug = require('debug')('app:config:webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CleanupPlugin = require('webpack-cleanup-plugin');
+var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 // Environment Constants
 var NODE_ENV = process.env.NODE_ENV;
@@ -92,11 +93,13 @@ if (__DEV__) {
   debug('Enabling plugins for production (OccurrenceOrder & UglifyJS).')
   webpackConfig.plugins.push(
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        unused: true,
-        dead_code: true,
-        warnings: false
+    new UglifyJSPlugin({
+      uglifyOptions: {
+        compress: {
+          unused: true,
+          dead_code: true,
+          warnings: false
+        }
       }
     }),
     new webpack.optimize.AggressiveMergingPlugin()
