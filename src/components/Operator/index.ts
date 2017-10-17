@@ -3,6 +3,7 @@ import { OperatorExample, Marble } from '../../definitions';
 import { DOMSource, VNode, div } from '@cycle/dom';
 import isolate from '@cycle/isolate';
 import { StreamView, ReadonlyStreamView } from './StreamView';
+import delay from 'xstream/extra/delay';
 
 interface Sources {
   dom: DOMSource;
@@ -30,13 +31,23 @@ const toDom$ = (streams$: Stream<Marble[][]>, selector: string, dom: DOMSource):
     .flatten();
 
 const OperatorComponent = ({ operator$, dom }: Sources): Sinks => {
-  const inputs$ = operator$.map(operator => operator.inputs);
-  const label$ = operator$.map(operator => operator.label);
-  const outputs$ = operator$.map(operator => getOutputs(operator)).flatten();
-  const inputsDom$ = toDom$(inputs$, '.inputs', dom);
-  const labelDom$ = label$.map(label => div('.label', [label]));
-  const outputsDom$ = ReadonlyStreamView({ marbles$: outputs$ }).dom.map(dom => div('.output', [dom]));
-  const vdom$ = xs.combine(inputsDom$, labelDom$, outputsDom$).map(doms => div('.operator', doms));
+  const vdom$ =
+    operator$
+      .map(({ inputs, label, operate }) => {
+        const inputStreams = inputs.map(marbles => StreamView({ dom, marbles$: xs.of(marbles) }));
+        const inputDoms$: Stream<VNode[]> = xs.combine(...inputStreams.map(sv => sv.dom));
+        const outputDoms$ = ReadonlyStreamView({ marbles$: getOutputs({ inputs, label, operate }) }).dom;
+        return xs.combine(inputDoms$, outputDoms$)
+          .map(([inputs, outputs]) =>
+            div('.operator', [
+              div('.inputs', inputs),
+              div('.label', [label]),
+              div('.output', outputs)
+            ])
+          )
+          .compose(delay(10))
+          .startWith(undefined)
+      }).flatten();
   return {
     dom: vdom$
   };
