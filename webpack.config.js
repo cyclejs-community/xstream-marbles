@@ -1,12 +1,14 @@
 var argv = require('yargs').argv;
 var webpack = require('webpack');
 var path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 var debug = require('debug')('app:config:webpack');
-var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var CleanupPlugin = require('webpack-cleanup-plugin');
 
 // Environment Constants
 var NODE_ENV = process.env.NODE_ENV;
+var API_ENDPOINT = JSON.stringify(process.env.API_ENDPOINT);
+var APP_URL = JSON.stringify(process.env.APP_URL);
 var __DEV__ = NODE_ENV === 'development';
 var __PROD__ = NODE_ENV === 'production';
 var __TEST__ = NODE_ENV === 'test';
@@ -19,14 +21,16 @@ var GLOBALS = {
   __PROD__: __PROD__,
   __TEST__: __TEST__,
   __COVERAGE__: __COVERAGE__,
-  __BASENAME__: __BASENAME__
+  __BASENAME__: __BASENAME__,
+  API_ENDPOINT: API_ENDPOINT,
+  APP_URL: APP_URL
 };
 
 // Constants
 var ROOT = path.resolve(__dirname);
 var DIST = path.join(ROOT, 'docs');
 var SRC = path.join(ROOT, 'src');
-var PROJECT_PUBLIC_PATH = '';
+var PROJECT_PUBLIC_PATH = '/';
 
 // Base Configuration
 var webpackConfig = {
@@ -34,23 +38,26 @@ var webpackConfig = {
   target: 'web',
   devtool: 'source-map',
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.json']
+    extensions: ['.ts', '.js', '.json']
   },
   module: { rules: [] }
 };
 
 // Entry
-var APP_ENTRY = path.join(ROOT, 'src/app.ts');
+var APP_ENTRY = path.join(SRC, 'app.ts');
 var WEBPACK_DEV_SERVER = `webpack-dev-server/client?path=${PROJECT_PUBLIC_PATH}`
 webpackConfig.entry = {
   app: __DEV__
-    ? [APP_ENTRY, WEBPACK_DEV_SERVER]
+    ? [WEBPACK_DEV_SERVER, APP_ENTRY]
     : [APP_ENTRY],
   vendor: [
-    'xstream',
-    '@cycle/dom',
     '@cycle/run',
-    'typestyle'
+    '@cycle/history',
+    '@cycle/isolate',
+    '@cycle/dom',
+    'xstream',
+    'typestyle',
+    'ramda'
   ]
 };
 
@@ -64,11 +71,11 @@ webpackConfig.output = {
 // Plugins
 webpackConfig.plugins = [
   new webpack.DefinePlugin(GLOBALS),
-  new WebpackCleanupPlugin(),
+  new CleanupPlugin(),
   new HtmlWebpackPlugin({
     template: path.join(SRC, 'index.html'),
     hash: false,
-    // favicon: path.join(SRC, 'favicon.ico'),
+    favicon: path.join(SRC, 'favicon.ico'),
     filename: 'index.html',
     inject: 'body',
     minify: { collapseWhitespace: true }
@@ -104,23 +111,15 @@ if (!__TEST__) {
     })
   )
 }
+
+// Rules
 function addRules(rules) {
   webpackConfig.module.rules = webpackConfig.module.rules.concat(rules);
 }
 // TypeScript and source maps
 addRules([
-  {
-    test: /\.tsx?$/,
-    loader: 'ts-loader'
-  },
-  {
-    test: /\.js$/,
-    loader: 'source-map-loader',
-    enforce: 'pre',
-    exclude: [
-      path.join(ROOT, 'node_modules')
-    ]
-  }
+  { test: /\.ts$/, loader: 'ts-loader' },
+  { test: /\.js$/, loader: 'source-map-loader', enforce: 'pre', exclude: [path.join(ROOT, 'node_modules')] }
 ]);
 
 module.exports = webpackConfig;
