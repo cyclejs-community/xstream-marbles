@@ -22,9 +22,7 @@ var GLOBALS = {
   __PROD__: __PROD__,
   __TEST__: __TEST__,
   __COVERAGE__: __COVERAGE__,
-  __BASENAME__: __BASENAME__,
-  API_ENDPOINT: API_ENDPOINT,
-  APP_URL: APP_URL
+  __BASENAME__: __BASENAME__
 };
 
 // Constants
