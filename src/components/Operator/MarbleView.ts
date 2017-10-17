@@ -44,7 +44,15 @@ interface Sinks {
 
 const getStyle = (time: number, complete: boolean): any => ({
   'z-index': time - (complete ? 1 : 0),
-  left: `calc(${time}% - ${complete ? 17 : 32}px)`
+  left: `calc(${time}% - ${complete ? 17 : 32}px)`,
+  opacity: 0,
+  transition: 'opacity 1s',
+  delayed: {
+    opacity: 1
+  },
+  remove: {
+    opacity: 0
+  }
 });
 
 const getOptions = (time: number, draggable: boolean, complete: boolean): any => ({
