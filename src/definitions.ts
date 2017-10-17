@@ -2,17 +2,17 @@ import { MemoryStream, Stream } from 'xstream';
 import { VNode } from '@cycle/dom';
 import { DOMSource } from '@cycle/dom';
 import { Location } from '@cycle/history';
-import { DataSource } from './drivers/data';
+import { OperatorsSource } from './drivers/operators';
 
 export interface Sources {
   dom: DOMSource;
   history: MemoryStream<Location>;
-  data: DataSource;
+  operators: OperatorsSource;
 }
 
 export interface Sinks {
   dom: Stream<VNode>;
-  data: Stream<string>;
+  operators: Stream<string>;
 }
 
 export interface Marble {

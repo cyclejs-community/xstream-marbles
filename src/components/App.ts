@@ -57,7 +57,7 @@ cssRaw(`
   }
 `);
 
-export const App = ({ history, dom, data: { data$: operator$, operators$ } }: Sources): Sinks => {
+export const App = ({ history, dom, operators: { operator$, operators$ } }: Sources): Sinks => {
   const xs = Stream;
   const sidebarDom$ = Sidebar({ operators$ }).dom;
   const operatorDom$ = Operator({ operator$, dom }).dom;
@@ -69,12 +69,12 @@ export const App = ({ history, dom, data: { data$: operator$, operators$ } }: So
           main([operator])
         ])
       );
-  const data$ =
+  const operatorRequest$ =
     history
       .map(route => route.pathname.replace('/', ''))
       .map(path => (path || 'map'));
   return {
     dom: vdom$,
-    data: data$
+    operators: operatorRequest$
   };
 };

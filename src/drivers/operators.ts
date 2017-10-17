@@ -10,13 +10,13 @@ const dummyListener = {
   complete: noop
 };
 
-export class DataSource {
+export class OperatorsSource {
   operators$: Stream<string[]>;
-  data$: Stream<OperatorExample>;
+  operator$: Stream<OperatorExample>;
   constructor(operator$: Stream<string>) {
     const xs = Stream;
     operator$.addListener(dummyListener);
-    this.data$ =
+    this.operator$ =
       operator$
         .map(operator => xs.of(examples[operator]))
         .flatten();
@@ -25,11 +25,9 @@ export class DataSource {
   }
 }
 
-export function makeDataDriver(): (operator$: Stream<string>) => DataSource {
-  function dataDriver(operator$: Stream<string>) {
-    return new DataSource(operator$);
+export function makeOperatorsDriver(): (operator$: Stream<string>) => OperatorsSource {
+  function operatorsDriver(operator$: Stream<string>) {
+    return new OperatorsSource(operator$);
   }
-  return dataDriver;
+  return operatorsDriver;
 }
-
-export default makeDataDriver;
