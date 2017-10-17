@@ -1,11 +1,15 @@
-import { Marble } from '../definitions';
+import { Marble } from '../../definitions';
 import { Stream } from 'xstream';
-import { div, span, VNode } from '@cycle/dom';
+import { div, span, VNode, DOMSource } from '@cycle/dom';
 import { MarbleView } from './MarbleView';
 import { cssRaw } from 'typestyle';
 
-interface Sources {
+interface ReadonlySources {
   marbles$: Stream<Marble[]>;
+}
+interface Sources extends ReadonlySources {
+  readonly$?: Stream<boolean>;
+  dom: DOMSource;
 }
 
 interface Sinks {
@@ -52,12 +56,14 @@ cssRaw(`
   }
 `);
 
-export const StreamView = ({ marbles$ }: Sources): Sinks => {
-  const xs = Stream;
+const xs = Stream;
+
+export const StreamView = ({ marbles$, readonly$, dom }: Sources): Sinks => {
+  const interactive$ = (readonly$ || xs.of(false)).map(readonly => !readonly).remember();
   const dom$ =
     marbles$
       .map(marbles => {
-        const marbleViews = marbles.map(marble => MarbleView({ marble$: xs.of(marble) }));
+        const marbleViews = marbles.map(marble => MarbleView({ marble$: xs.of(marble), draggable$: interactive$ }));
         const marbleDom$: Stream<VNode[]> = xs.combine(...marbleViews.map(view => view.dom));
         const dom$ = marbleDom$.map(doms => div('.stream', doms));
         return dom$;
@@ -67,3 +73,10 @@ export const StreamView = ({ marbles$ }: Sources): Sinks => {
     dom: dom$
   };
 };
+
+export const ReadonlyStreamView = ({ marbles$ }: ReadonlySources): Sinks =>
+  StreamView({
+    marbles$,
+    readonly$: Stream.of(true),
+    dom: undefined
+  });

@@ -1,4 +1,4 @@
-import { Marble } from '../definitions';
+import { Marble } from '../../definitions';
 import { Stream } from 'xstream';
 import { div, span, VNode } from '@cycle/dom';
 import { cssRaw } from 'typestyle';
@@ -35,6 +35,7 @@ cssRaw(`
 
 interface Sources {
   marble$: Stream<Marble>;
+  draggable$: Stream<boolean>;
 }
 
 interface Sinks {
@@ -46,15 +47,16 @@ const getStyle = (time: number, complete: boolean): any => ({
   left: `calc(${time}% - ${complete ? 17 : 32}px)`
 });
 
-const getOptions = (time: number, complete: boolean): any => ({
-  style: getStyle(time, complete)
+const getOptions = (time: number, draggable: boolean, complete: boolean): any => ({
+  style: getStyle(time, complete),
+  props: { draggable }
 });
 
-export const MarbleView = ({ marble$ }: Sources): Sinks => ({
-  dom: marble$
-    .map(({ data, time, complete }) =>
+export const MarbleView = ({ marble$, draggable$ }: Sources): Sinks => ({
+  dom: Stream.combine(marble$, draggable$)
+    .map(([{ data, time, complete }, draggable]) =>
       !!complete
-        ? div('.complete', getOptions(time, true))
-        : div('.marble', getOptions(time, false), [span([data])])
+        ? div('.complete', getOptions(time, false, true))
+        : div('.marble', getOptions(time, draggable, false), [span([data])])
     )
 });

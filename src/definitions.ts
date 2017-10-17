@@ -23,9 +23,7 @@ export interface Marble {
 
 export interface State {
   operators$: Stream<string[]>;
-  inputs$: Stream<Marble[][]>;
-  label$: Stream<string>;
-  output$: Stream<Marble[]>;
+  operator$: Stream<OperatorExample>;
 }
 
 export interface OperatorExample {
