@@ -5,9 +5,9 @@
     "module": "commonjs",
     "sourceMap": true,
     "lib": [
-      "es2015",
-      "es2016",
-      "dom"
+      "dom",
+      "es6",
+      "es5"
     ]
   },
   "include": [
