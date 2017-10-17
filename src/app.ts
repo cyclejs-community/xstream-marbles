@@ -1,38 +1,10 @@
-import main from './main';
+import { App } from './components/App';
 import { makeDOMDriver } from '@cycle/dom';
 import { makeHashHistoryDriver } from '@cycle/history';
 import { makeDataDriver } from './drivers/data';
 import { run } from '@cycle/run';
-import { cssRaw } from 'typestyle';
 
-// TODO: Refactor
-cssRaw(`
-  html, body {
-    font-size: 100%;
-    height: 100%;
-    width: 100%;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: "Source Sans Pro", sans-serif;
-  }
-
-  *, *:before, *:after {
-    -webkit-box-sizing: inherit;
-    -moz-box-sizing: inherit;
-    box-sizing: inherit;
-  }
-
-  #app {
-    height: 100%;
-    width: 100%;
-    overflow: auto;
-  }
-`);
-
-run(main, {
+run(App, {
   dom: makeDOMDriver('#app'),
   history: makeHashHistoryDriver(),
   data: makeDataDriver()
