@@ -8,4 +8,4 @@ run(App, {
   dom: makeDOMDriver('#app'),
   history: makeHashHistoryDriver(),
   operators: makeOperatorsDriver()
-} as any);
+});
