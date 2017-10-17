@@ -31,7 +31,7 @@ var GLOBALS = {
 var ROOT = path.resolve(__dirname);
 var DIST = path.join(ROOT, 'docs');
 var SRC = path.join(ROOT, 'src');
-var PROJECT_PUBLIC_PATH = '/';
+var PROJECT_PUBLIC_PATH = __DEV__ ? '/' : './';
 
 // Base Configuration
 var webpackConfig = {
