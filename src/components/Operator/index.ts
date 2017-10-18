@@ -15,9 +15,10 @@ interface Sinks {
 
 const xs = Stream;
 
-const getOutputs = (example: OperatorExample): Stream<Marble[]> =>
-  example.operate(...example.inputs.map(input => Stream.fromArray(input)))
-    .fold((marbles, marble) => marbles.concat(marble), [] as Marble[]).last();
+const getOutputs = ({ operate, inputs }: OperatorExample): Stream<Marble[]> =>
+  operate(...inputs.map(input => Stream.fromArray(input)))
+    .fold((marbles, marble) => marbles.concat(marble), [] as Marble[])
+    .last();
 
 const OperatorComponent = ({ operator$, dom }: Sources): Sinks => {
   const vdom$ =
