@@ -41,4 +41,4 @@ const OperatorComponent = ({ operator$, dom }: Sources): Sinks => {
   };
 };
 
-export const Operator = (sources: Sources) => isolate(OperatorComponent)(sources);
+export const Operator = (sources: Sources): Sinks => isolate(OperatorComponent)(sources);
