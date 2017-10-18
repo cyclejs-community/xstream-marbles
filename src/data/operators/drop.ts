@@ -1,5 +1,3 @@
-import { OperatorExample } from '../definitions';
-
 export const drop = {
   inputs: [
     [

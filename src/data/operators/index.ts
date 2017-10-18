@@ -1,5 +1,5 @@
 import { Stream } from 'xstream';
-import { Marble, OperatorExample } from '../definitions';
+import { Marble, Operator } from '../../definitions';
 import { withCompletionMarble$ } from './helpers';
 import { map } from './map';
 import { mapTo } from './mapTo';
@@ -8,7 +8,11 @@ import { take } from './take';
 import { drop } from './drop';
 import { last } from './last';
 
-export const examples: IndexedOperatorExamples = {
+interface Operators {
+  [key: string]: Operator;
+}
+
+export const operators: Operators = {
   'map': map,
   'mapTo': mapTo,
   'filter': filter,
@@ -16,7 +20,3 @@ export const examples: IndexedOperatorExamples = {
   'drop': drop,
   'last': last
 };
-
-interface IndexedOperatorExamples {
-  [key: string]: OperatorExample;
-}

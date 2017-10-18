@@ -1,4 +1,3 @@
-import { OperatorExample } from '../definitions';
 import { toMarbleStream } from './helpers';
 
 export const filter = {

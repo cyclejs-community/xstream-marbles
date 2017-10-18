@@ -1,6 +1,6 @@
 import { Stream, Listener } from 'xstream';
-import { examples } from '../data/operators';
-import { OperatorExample } from '../definitions';
+import { operators } from '../data/operators';
+import { Operator } from '../definitions';
 import { keys } from 'ramda';
 
 const noop = () => {};
@@ -12,16 +12,16 @@ const dummyListener = {
 
 export class OperatorsSource {
   operators$: Stream<string[]>;
-  operator$: Stream<OperatorExample>;
+  operator$: Stream<Operator>;
   constructor(operator$: Stream<string>) {
     const xs = Stream;
     operator$.addListener(dummyListener);
     this.operator$ =
       operator$
-        .map(operator => xs.of(examples[operator]))
+        .map(operator => xs.of(operators[operator]))
         .flatten();
     this.operators$ =
-      xs.of(keys(examples)).remember();
+      xs.of(keys(operators)).remember();
   }
 }
 

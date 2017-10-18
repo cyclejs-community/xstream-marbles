@@ -1,4 +1,3 @@
-import { OperatorExample } from '../definitions';
 import { withCompletionMarble$ } from './helpers';
 
 export const take = {

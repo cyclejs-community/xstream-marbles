@@ -1,7 +1,6 @@
-import { OperatorExample } from '../definitions';
 import { toMarbleStream } from './helpers';
 
-export const mapTo = {
+export const map = {
   inputs: [
     [
       { data: '1', time: 25 },
@@ -10,6 +9,6 @@ export const mapTo = {
       { time: 100, complete: true }
     ]
   ],
-  label: 'mapTo(10)',
-  operate: input$ => toMarbleStream(input$, input$ => input$.mapTo('10'))
+  label: 'map(x => 10 * x)',
+  operate: input$ => toMarbleStream(input$, input$ => input$.map(x => 10 * parseInt(x)).map(x => x.toString()))
 };
