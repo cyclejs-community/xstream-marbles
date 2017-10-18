@@ -1,6 +1,7 @@
-import { Sources, Sinks } from '../definitions';
-import { Stream } from 'xstream';
-import { div, aside, main } from '@cycle/dom';
+import { Stream, MemoryStream } from 'xstream';
+import { DOMSource, VNode, div, aside, main } from '@cycle/dom';
+import { OperatorsSource } from '../drivers/operators';
+import { Location } from '@cycle/history';
 import { Sidebar } from './Sidebar';
 import { Operator } from './Operator';
 import { cssRaw } from 'typestyle';
@@ -57,6 +58,17 @@ cssRaw(`
     text-align: center;
   }
 `);
+
+interface Sources {
+  dom: DOMSource;
+  history: MemoryStream<Location>;
+  operators: OperatorsSource;
+}
+
+interface Sinks {
+  dom: Stream<VNode>;
+  operators: Stream<string>;
+}
 
 export const App = ({ history, dom, operators: { operator$, operators$ } }: Sources): Sinks => {
   const xs = Stream;

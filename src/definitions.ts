@@ -1,29 +1,9 @@
-import { MemoryStream, Stream } from 'xstream';
-import { VNode } from '@cycle/dom';
-import { DOMSource } from '@cycle/dom';
-import { Location } from '@cycle/history';
-import { OperatorsSource } from './drivers/operators';
-
-export interface Sources {
-  dom: DOMSource;
-  history: MemoryStream<Location>;
-  operators: OperatorsSource;
-}
-
-export interface Sinks {
-  dom: Stream<VNode>;
-  operators: Stream<string>;
-}
+import { Stream } from 'xstream';
 
 export interface Marble {
   time: number;
   complete?: boolean;
   data?: string;
-}
-
-export interface State {
-  operators$: Stream<string[]>;
-  operator$: Stream<Operator>;
 }
 
 export interface Operator {
