@@ -1,5 +1,5 @@
 import { Stream } from 'xstream';
-import { Marble } from '../../definitions';
+import { Marble } from './definitions';
 
 const complete = (some$: Stream<Marble>, time: number) => {
   some$.shamefullySendNext({

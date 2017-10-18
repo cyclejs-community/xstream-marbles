@@ -1,5 +1,5 @@
 import { Stream } from 'xstream';
-import { Marble, Operator } from '../../definitions';
+import { Marble, Operator } from './definitions';
 import { withCompletionMarble$ } from './helpers';
 import { map } from './map';
 import { mapTo } from './mapTo';
@@ -20,3 +20,5 @@ export const operators: Operators = {
   'drop': drop,
   'last': last
 };
+
+export { Marble, Operator };

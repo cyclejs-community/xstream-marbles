@@ -1,6 +1,5 @@
 import { Stream, Listener } from 'xstream';
-import { operators } from '../data/operators';
-import { Operator } from '../definitions';
+import { operators, Operator, Marble } from '../data/operators';
 import { keys } from 'ramda';
 
 const noop = () => {};
@@ -31,3 +30,5 @@ export function makeOperatorsDriver(): (operator$: Stream<string>) => OperatorsS
   }
   return operatorsDriver;
 }
+
+export { Operator, Marble };

@@ -1,4 +1,4 @@
-import { Marble } from '../../definitions';
+import { Marble } from './definitions';
 import { Stream } from 'xstream';
 import { div, span, VNode, DOMSource } from '@cycle/dom';
 import { MarbleView } from './MarbleView';

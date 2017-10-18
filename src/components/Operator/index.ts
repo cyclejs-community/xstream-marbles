@@ -1,5 +1,5 @@
 import { Stream } from 'xstream';
-import { Operator as IOperator, Marble } from '../../definitions';
+import { Operator as IOperator, Marble } from './definitions';
 import { DOMSource, VNode, div } from '@cycle/dom';
 import isolate from '@cycle/isolate';
 import { StreamView, ReadonlyStreamView } from './StreamView';
