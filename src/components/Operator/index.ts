@@ -25,13 +25,13 @@ const OperatorComponent = ({ operator$, dom }: Sources): Sinks => {
       .map(({ inputs, label, operate }) => {
         const inputStreams = inputs.map(marbles => StreamView({ dom, marbles$: xs.of(marbles) }));
         const inputDoms$: Stream<VNode[]> = xs.combine(...inputStreams.map(sv => sv.dom));
-        const outputDoms$ = ReadonlyStreamView({ marbles$: getOutputs({ inputs, label, operate }) }).dom;
-        return xs.combine(inputDoms$, outputDoms$)
-          .map(([inputs, outputs]) =>
+        const outputDom$ = ReadonlyStreamView({ marbles$: getOutputs({ inputs, label, operate }) }).dom;
+        return xs.combine(inputDoms$, outputDom$)
+          .map(([inputs, output]) =>
             div('.operator', [
               div('.inputs', inputs),
               div('.label', [label]),
-              div('.output', outputs)
+              div('.output', [output])
             ])
           )
       }).flatten();
