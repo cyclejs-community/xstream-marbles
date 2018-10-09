@@ -12,12 +12,12 @@ interface Sinks {
 }
 
 export const Sidebar = ({ operators$ }: Sources): Sinks => {
-  const title$ = Title().dom;
+  const titleDom$ = Title().dom;
   const xs = Stream;
   return {
-    dom: xs.combine(title$, operators$).map(([title, operators]) =>
+    dom: xs.combine(titleDom$, operators$).map(([titleDom, operators]) =>
       div([
-        title,
+        titleDom,
         nav('.sidebar', [
           ul('.sidebar-links',
             operators.map(operator =>
